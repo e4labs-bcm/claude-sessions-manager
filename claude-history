@@ -1,0 +1,194 @@
+#!/usr/bin/env python3
+"""
+Claude History - Comando Unificado com Linguagem Natural
+Interpreta comandos em português e executa a ação apropriada
+"""
+
+import sys
+import subprocess
+from pathlib import Path
+
+SCRIPT_DIR = Path(__file__).parent.absolute()
+
+def show_help():
+    print("""
+╔════════════════════════════════════════════════════════════════════╗
+║                                                                    ║
+║                    📚 CLAUDE HISTORY v1.0.0                        ║
+║                                                                    ║
+║              Comando unificado com linguagem natural               ║
+║                                                                    ║
+╚════════════════════════════════════════════════════════════════════╝
+
+🎯 USO SIMPLES - Fale naturalmente!
+
+  claude-history "última sessão"
+  claude-history "buscar git"
+  claude-history "listar"
+  claude-history "ver 065fa436"
+  claude-history "procurar autenticação"
+
+📖 COMANDOS ACEITOS:
+
+  Listar Sessões:
+    • "listar", "lista", "sessões", "conversas", "últimas"
+    • "show sessions", "list"
+
+  Ver Sessão:
+    • "ver <id>", "mostrar <id>", "view <id>"
+    • "sessão <id>", "conversa <id>"
+    • Aceita ID curto (8 caracteres)
+
+  Buscar:
+    • "buscar <termo>", "procurar <termo>", "search <termo>"
+    • "encontrar <termo>", "achar <termo>"
+
+  Última Sessão:
+    • "última", "última sessão", "last session"
+    • "recente", "anterior"
+
+💡 EXEMPLOS:
+
+  # Listar
+  claude-history "listar"
+  claude-history "últimas sessões"
+
+  # Ver específica
+  claude-history "ver 065fa436"
+  claude-history "mostrar sessão 46f5b309"
+
+  # Buscar
+  claude-history "buscar git"
+  claude-history "procurar autenticação"
+
+  # Última
+  claude-history "última sessão"
+  claude-history "o que estávamos fazendo?"
+
+═══════════════════════════════════════════════════════════════════
+
+💡 Dica: Não precisa decorar comandos! Fale naturalmente.
+""")
+
+def run_command(cmd):
+    """Executa um dos comandos do claude-sessions-manager"""
+    try:
+        result = subprocess.run(
+            cmd,
+            shell=True,
+            capture_output=True,
+            text=True
+        )
+        print(result.stdout)
+        if result.stderr:
+            print(result.stderr, file=sys.stderr)
+        return result.returncode
+    except Exception as e:
+        print(f"❌ Erro ao executar comando: {e}", file=sys.stderr)
+        return 1
+
+def parse_and_execute(query):
+    """Interpreta o comando em linguagem natural"""
+    query_lower = query.lower()
+
+    # Detectar sessão ID (8+ caracteres alfanuméricos)
+    import re
+    session_id_match = re.search(r'\b([a-f0-9]{8})\b', query_lower)
+
+    # Padrões para listar
+    list_patterns = [
+        'listar', 'lista', 'sessões', 'sessoes', 'conversas',
+        'últimas', 'ultimas', 'list', 'show', 'todas'
+    ]
+
+    # Padrões para ver sessão
+    view_patterns = [
+        'ver', 'mostrar', 'view', 'show', 'sessão', 'sessao',
+        'conversa', 'abrir', 'detalhes'
+    ]
+
+    # Padrões para buscar
+    search_patterns = [
+        'buscar', 'procurar', 'search', 'encontrar', 'achar',
+        'pesquisar', 'grep', 'find'
+    ]
+
+    # Padrões para última sessão
+    last_patterns = [
+        'última', 'ultima', 'last', 'recente', 'anterior',
+        'latest', 'most recent'
+    ]
+
+    # Decisão: Última sessão
+    if any(pattern in query_lower for pattern in last_patterns):
+        print("🔍 Buscando última sessão...")
+        print()
+        return run_command(f"{SCRIPT_DIR}/claude-sessions | head -8")
+
+    # Decisão: Ver sessão específica
+    if session_id_match or any(pattern in query_lower for pattern in view_patterns):
+        if session_id_match:
+            session_id = session_id_match.group(1)
+            print(f"📖 Carregando sessão {session_id}...")
+            print()
+            return run_command(f"{SCRIPT_DIR}/claude-view {session_id}")
+        else:
+            print("❌ ID da sessão não encontrado.")
+            print("💡 Use: claude-history 'ver <id>'")
+            print("💡 Ou liste as sessões: claude-history 'listar'")
+            return 1
+
+    # Decisão: Listar sessões
+    if any(pattern in query_lower for pattern in list_patterns):
+        print("📚 Listando sessões...")
+        print()
+        return run_command(f"{SCRIPT_DIR}/claude-sessions")
+
+    # Decisão: Buscar
+    if any(pattern in query_lower for pattern in search_patterns):
+        # Extrair termo de busca
+        for pattern in search_patterns:
+            if pattern in query_lower:
+                # Pegar o que vem depois do padrão
+                parts = query_lower.split(pattern, 1)
+                if len(parts) > 1:
+                    search_term = parts[1].strip().strip('"\'')
+                    if search_term:
+                        print(f"🔍 Buscando por: \"{search_term}\"")
+                        print()
+                        return run_command(f"{SCRIPT_DIR}/claude-search \"{search_term}\"")
+
+        print("❌ Termo de busca não especificado.")
+        print("💡 Use: claude-history 'buscar <termo>'")
+        return 1
+
+    # Fallback: tentar interpretar como busca
+    if len(query) > 0 and not query.startswith('-'):
+        print(f"🔍 Buscando por: \"{query}\"")
+        print()
+        return run_command(f"{SCRIPT_DIR}/claude-search \"{query}\"")
+
+    # Não entendeu
+    print("❓ Não entendi o comando.")
+    print()
+    print("💡 Exemplos:")
+    print("   claude-history 'listar'")
+    print("   claude-history 'buscar git'")
+    print("   claude-history 'ver 065fa436'")
+    print("   claude-history 'última sessão'")
+    print()
+    print("Use: claude-history --help para mais informações")
+    return 1
+
+def main():
+    if len(sys.argv) < 2 or sys.argv[1] in ['-h', '--help', 'help']:
+        show_help()
+        return 0
+
+    # Juntar todos os argumentos como uma query
+    query = ' '.join(sys.argv[1:])
+
+    return parse_and_execute(query)
+
+if __name__ == '__main__':
+    sys.exit(main())
