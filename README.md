@@ -14,7 +14,7 @@ Este pacote fornece ferramentas para **acessar facilmente** esse histórico.
 
 ---
 
-## ✨ Features
+## ✨ Funcionalidades
 
 - ✅ **Zero configuração** - Funciona imediatamente
 - ✅ **Zero tokens extras** - Apenas lê o que já foi salvo
@@ -29,7 +29,7 @@ Este pacote fornece ferramentas para **acessar facilmente** esse histórico.
 
 ### 1. Clone ou baixe este repositório
 ```bash
-git clone https://github.com/seu-usuario/claude-sessions-manager.git
+git clone https://github.com/e4labs-bcm/claude-sessions-manager.git
 cd claude-sessions-manager
 ```
 
@@ -97,7 +97,7 @@ claude-view 065fa436
 
 **Para copiar para arquivo:**
 ```bash
-claude-view 065fa436 > /tmp/session.txt
+claude-view 065fa436 > /tmp/sessao.txt
 ```
 
 ---
@@ -105,14 +105,14 @@ claude-view 065fa436 > /tmp/session.txt
 ### 3️⃣ Buscar por Palavra-Chave
 Encontra todas as sessões que mencionaram um termo:
 ```bash
-claude-search "authentication"
+claude-search "autenticação"
 claude-search "API routes"
 claude-search "bug"
 ```
 
 **Resultado:**
 ```
-🔍 Buscando por: "authentication"
+🔍 Buscando por: "autenticação"
 ════════════════════════════════════════════════════════════
 
 📄 065fa436... (12/11/2025 08:40) - hub-app-nextjs
@@ -142,7 +142,7 @@ claude-view <id>
 ### ✅ "Esqueci o que discutimos sobre autenticação"
 ```bash
 # Busque o termo
-claude-search "authentication"
+claude-search "autenticação"
 
 # Veja a sessão completa
 claude-view <id>
@@ -273,6 +273,6 @@ Se tiver problemas:
 
 ---
 
-## 🎉 Happy Coding!
+## 🎉 Bom Código!
 
 Nunca mais perca contexto. Aproveite suas conversas com Claude ao máximo! 🚀

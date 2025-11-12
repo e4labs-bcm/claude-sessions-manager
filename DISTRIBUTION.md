@@ -10,7 +10,7 @@ Como compartilhar este pacote com outros usuários.
 ```bash
 # 1. Crie um repositório novo no GitHub (via interface web)
 #    Nome sugerido: claude-sessions-manager
-#    Descrição: "Never lose context from Claude Code conversations again!"
+#    Descrição: "Nunca mais perca o contexto das suas conversas com Claude Code!"
 
 # 2. Inicialize o git (se ainda não foi)
 cd claude-sessions-manager
@@ -20,7 +20,7 @@ git init
 git add .
 
 # 4. Faça o commit inicial
-git commit -m "Initial release v1.0.0"
+git commit -m "feat: Lançamento inicial v1.0.0"
 
 # 5. Conecte ao repositório remoto
 git remote add origin https://github.com/SEU_USUARIO/claude-sessions-manager.git
@@ -38,20 +38,20 @@ git push -u origin main
    ```markdown
    # 📚 Claude Sessions Manager v1.0.0
 
-   First public release!
+   Primeiro lançamento público!
 
-   ## Features
-   - ✅ List Claude CLI session history
-   - ✅ View complete conversations
-   - ✅ Search by keyword
-   - ✅ Zero tokens extra usage
+   ## Funcionalidades
+   - ✅ Listar histórico de sessões do Claude CLI
+   - ✅ Ver conversas completas
+   - ✅ Buscar por palavra-chave
+   - ✅ Zero tokens extras usados
 
-   ## Installation
+   ## Instalação
    ```bash
    bash install.sh
    ```
 
-   See README.md for complete documentation.
+   Veja README.md para documentação completa.
    ```
 
 ### 3. Compartilhar
@@ -144,24 +144,24 @@ Poste em comunidades relevantes:
 
 **Template de post:**
 ```markdown
-# 📚 I built a tool to never lose Claude Code context again
+# 📚 Criei uma ferramenta para nunca mais perder contexto do Claude Code
 
-Fed up with losing conversation context when Claude Code restarts?
+Cansado de perder o contexto da conversa quando o Claude Code reinicia?
 
-I created **Claude Sessions Manager** - a simple CLI tool that lets you:
-- ✅ Browse your complete Claude conversation history
-- ✅ Search past conversations by keyword
-- ✅ Recover context after crashes
-- ✅ Zero extra tokens used
+Criei o **Claude Sessions Manager** - uma ferramenta CLI simples que permite:
+- ✅ Navegar pelo histórico completo das suas conversas
+- ✅ Buscar conversas passadas por palavra-chave
+- ✅ Recuperar contexto após crashes
+- ✅ Zero tokens extras usados
 
-GitHub: https://github.com/SEU_USUARIO/claude-sessions-manager
+GitHub: https://github.com/e4labs-bcm/claude-sessions-manager
 
-One-line install:
+Instalação em uma linha:
 ```bash
-bash <(curl -s https://raw.githubusercontent.com/SEU_USUARIO/claude-sessions-manager/main/install.sh)
+bash <(curl -s https://raw.githubusercontent.com/e4labs-bcm/claude-sessions-manager/main/install.sh)
 ```
 
-Would love feedback!
+Adoraria receber feedback!
 ```
 
 ---

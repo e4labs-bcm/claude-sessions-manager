@@ -2,60 +2,60 @@
 ║                                                                    ║
 ║               📚 CLAUDE SESSIONS MANAGER v1.0.0                    ║
 ║                                                                    ║
-║         Never lose context from Claude Code again!                 ║
+║         Nunca mais perca o contexto do Claude Code!                ║
 ║                                                                    ║
 ╚════════════════════════════════════════════════════════════════════╝
 
-🚀 QUICK START (30 seconds)
+🚀 INÍCIO RÁPIDO (30 segundos)
 
-1. Install:
+1. Instalar:
    bash install.sh
 
-2. List your sessions:
+2. Listar suas sessões:
    claude-sessions
 
-3. View a session (use 8-char ID):
+3. Ver uma sessão (use ID de 8 caracteres):
    claude-view <id>
 
-4. Search:
-   claude-search "keyword"
+4. Buscar:
+   claude-search "palavra-chave"
 
 ═══════════════════════════════════════════════════════════════════
 
-✅ WHAT IT DOES
+✅ O QUE FAZ
 
-Claude Code saves ALL your conversations automatically to:
+O Claude Code salva TODAS as suas conversas automaticamente em:
    ~/.claude/history.jsonl
 
-This tool lets you:
-   - Browse past conversations
-   - Search by keyword
-   - Recover context after crashes
-   - Zero extra tokens used (just reads saved data)
+Esta ferramenta permite:
+   - Navegar por conversas passadas
+   - Buscar por palavra-chave
+   - Recuperar contexto após crashes
+   - Zero tokens extras usados (só lê dados já salvos)
 
 ═══════════════════════════════════════════════════════════════════
 
-📖 FULL DOCUMENTATION
+📖 DOCUMENTAÇÃO COMPLETA
 
-Read:   README.md (complete guide)
-Share:  DISTRIBUTION.md (how to share with others)
-
-═══════════════════════════════════════════════════════════════════
-
-🐛 TROUBLESHOOTING
-
-"File not found" → You need to have Claude Code installed and
-                    at least one conversation saved.
-
-"Command not found" → Add ~/.local/bin to your PATH:
-                       export PATH="$HOME/.local/bin:$PATH"
+Leia:        README.md (guia completo)
+Compartilhe: DISTRIBUTION.md (como compartilhar com outros)
 
 ═══════════════════════════════════════════════════════════════════
 
-📄 LICENSE: MIT (free to use, modify, share)
+🐛 SOLUÇÃO DE PROBLEMAS
 
-🙏 Created by Claude Code users who were tired of losing context.
+"Arquivo não encontrado" → Você precisa ter o Claude Code instalado e
+                            pelo menos uma conversa salva.
+
+"Comando não encontrado" → Adicione ~/.local/bin ao seu PATH:
+                            export PATH="$HOME/.local/bin:$PATH"
 
 ═══════════════════════════════════════════════════════════════════
 
-Happy coding! 🎉
+📄 LICENÇA: MIT (livre para usar, modificar, compartilhar)
+
+🙏 Criado por usuários do Claude Code cansados de perder contexto.
+
+═══════════════════════════════════════════════════════════════════
+
+Bom código! 🎉
