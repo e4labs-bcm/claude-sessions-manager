@@ -20,6 +20,9 @@ Este pacote fornece ferramentas para **acessar facilmente** esse histórico.
 - ✅ **Zero tokens extras** - Apenas lê o que já foi salvo
 - ✅ **IDs curtos** - Use apenas os primeiros 8 caracteres
 - ✅ **Busca inteligente** - Encontre conversas por palavra-chave
+- ✅ **Linguagem natural** 🆕 - `claude-history "última sessão"` (português/inglês)
+- ✅ **Slash command** 🆕 - Use `/sessions` no Claude Code
+- ✅ **Integração CLAUDE.md** 🆕 - Claude sabe automaticamente usar os comandos
 - ✅ **Portátil** - Funciona em macOS e Linux
 - ✅ **Leve** - Scripts Python puros (sem dependências externas)
 
@@ -123,6 +126,42 @@ claude-search "bug"
 
 ✅ 15 resultados encontrados em 2 sessões
 ```
+
+---
+
+### 4️⃣ Comando Unificado (Linguagem Natural) 🆕
+Use **linguagem natural** sem precisar lembrar dos comandos específicos:
+```bash
+claude-history "última sessão"
+claude-history "buscar git"
+claude-history "listar"
+claude-history "ver 065fa436"
+claude-history "procurar autenticação"
+```
+
+**Aceita português e inglês:**
+- "última sessão", "last session", "recente"
+- "buscar git", "search git", "encontrar git"
+- "listar", "list", "sessões", "show sessions"
+- "ver 065fa436", "view 065fa436", "mostrar 065fa436"
+
+---
+
+### 5️⃣ Slash Command no Claude Code 🆕
+Depois da instalação, recarregue o Claude Code (Cmd+Shift+P → "Reload Window") e use:
+```
+/sessions
+```
+
+O Claude Code vai perguntar o que você precisa e executar o comando apropriado automaticamente.
+
+---
+
+### 6️⃣ Integração Automática com Projetos 🆕
+Durante a instalação, você pode adicionar instruções ao `CLAUDE.md` do seu projeto. Isso faz com que o Claude Code **automaticamente saiba** usar estes comandos quando você pedir para "buscar sessões anteriores".
+
+**Ou adicione manualmente:**
+Copie o conteúdo de `CLAUDE_MD_TEMPLATE.md` para o `CLAUDE.md` do seu projeto.
 
 ---
 
