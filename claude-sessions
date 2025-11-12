@@ -1,0 +1,90 @@
+#!/usr/bin/env python3
+"""
+Claude Sessions Manager - List Sessions
+Mostra histórico de conversas do Claude CLI
+"""
+
+import json
+import sys
+from datetime import datetime
+from pathlib import Path
+from collections import OrderedDict
+
+HISTORY_FILE = Path.home() / ".claude" / "history.jsonl"
+
+def list_sessions():
+    if not HISTORY_FILE.exists():
+        print(f"❌ Arquivo de histórico não encontrado: {HISTORY_FILE}")
+        print("💡 Certifique-se de que o Claude Code está instalado e você já teve algumas conversas.")
+        sys.exit(1)
+
+    print("📚 Histórico de Sessões do Claude CLI")
+    print("═" * 60)
+    print()
+
+    # Ler todas as sessões
+    sessions = OrderedDict()
+
+    with open(HISTORY_FILE, 'r', encoding='utf-8') as f:
+        for line in f:
+            try:
+                entry = json.loads(line)
+                session_id = entry.get('sessionId')
+
+                if not session_id or session_id == 'null':
+                    continue
+
+                if session_id not in sessions:
+                    timestamp = entry.get('timestamp', 0)
+                    display = entry.get('display', '')[:60]
+                    project = entry.get('project', 'Unknown')
+                    project_name = Path(project).name if project else 'Unknown'
+
+                    date_str = datetime.fromtimestamp(timestamp / 1000).strftime('%d/%m/%Y %H:%M')
+
+                    sessions[session_id] = {
+                        'date': date_str,
+                        'preview': display,
+                        'project': project_name,
+                        'timestamp': timestamp
+                    }
+            except json.JSONDecodeError:
+                continue
+
+    # Mostrar últimas 20 sessões
+    sorted_sessions = sorted(sessions.items(), key=lambda x: x[1]['timestamp'], reverse=True)
+
+    if not sorted_sessions:
+        print("❌ Nenhuma sessão encontrada ainda.")
+        print("💡 Use o Claude Code para começar a salvar conversas automaticamente.")
+        sys.exit(0)
+
+    for session_id, data in sorted_sessions[:20]:
+        print(f"📄 Sessão: {session_id[:8]}... ({data['date']})")
+        print(f"   Projeto: {data['project']}")
+        print(f"   Preview: {data['preview']}...")
+        print()
+
+    print("═" * 60)
+    print()
+    print("💡 Para ver uma sessão completa:")
+    print("   claude-view <sessionId>")
+    print()
+    print("💡 Para buscar por palavra-chave:")
+    print("   claude-search <palavra>")
+    print()
+    print("💡 Sessão atual:")
+
+    with open(HISTORY_FILE, 'r', encoding='utf-8') as f:
+        lines = f.readlines()
+        for line in reversed(lines):
+            try:
+                entry = json.loads(line)
+                if entry.get('sessionId'):
+                    print(f"   {entry['sessionId']}")
+                    break
+            except:
+                continue
+
+if __name__ == '__main__':
+    list_sessions()

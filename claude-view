@@ -1,0 +1,77 @@
+#!/usr/bin/env python3
+"""
+Claude Sessions Manager - View Session
+Mostra conversa completa de uma sessão (aceita ID curto ou completo)
+"""
+
+import json
+import sys
+from datetime import datetime
+from pathlib import Path
+
+def view_session():
+    if len(sys.argv) < 2:
+        print("❌ Uso: claude-view <sessionId>")
+        print()
+        print("💡 Para listar sessões disponíveis:")
+        print("   claude-sessions")
+        sys.exit(1)
+
+    SESSION_ID_PREFIX = sys.argv[1]
+    HISTORY_FILE = Path.home() / ".claude" / "history.jsonl"
+
+    if not HISTORY_FILE.exists():
+        print(f"❌ Arquivo de histórico não encontrado: {HISTORY_FILE}")
+        sys.exit(1)
+
+    # Encontrar sessionId completo (aceita ID curto ou completo)
+    full_session_id = None
+    with open(HISTORY_FILE, 'r', encoding='utf-8') as f:
+        for line in f:
+            try:
+                entry = json.loads(line)
+                sid = entry.get('sessionId')
+                if sid and (sid == SESSION_ID_PREFIX or sid.startswith(SESSION_ID_PREFIX)):
+                    full_session_id = sid
+                    break
+            except json.JSONDecodeError:
+                continue
+
+    if not full_session_id:
+        print(f"❌ Sessão não encontrada: {SESSION_ID_PREFIX}")
+        print("💡 Use: claude-sessions para ver sessões disponíveis")
+        sys.exit(1)
+
+    print(f"📖 Sessão: {full_session_id}")
+    print("═" * 60)
+    print()
+
+    messages = []
+
+    with open(HISTORY_FILE, 'r', encoding='utf-8') as f:
+        for line in f:
+            try:
+                entry = json.loads(line)
+                if entry.get('sessionId') == full_session_id:
+                    timestamp = entry.get('timestamp', 0)
+                    display = entry.get('display', '')
+                    time_str = datetime.fromtimestamp(timestamp / 1000).strftime('%H:%M:%S')
+                    messages.append((time_str, display))
+            except json.JSONDecodeError:
+                continue
+
+    if not messages:
+        print(f"❌ Nenhuma mensagem encontrada para sessão: {SESSION_ID_PREFIX}")
+        sys.exit(1)
+
+    for time_str, display in messages:
+        print(f"[{time_str}] {display}")
+        print()
+
+    print("═" * 60)
+    print()
+    print("💡 Para copiar e colar em nova conversa, redirecione para arquivo:")
+    print(f"   claude-view {full_session_id} > /tmp/session.txt")
+
+if __name__ == '__main__':
+    view_session()

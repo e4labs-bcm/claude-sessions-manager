@@ -1,0 +1,61 @@
+╔════════════════════════════════════════════════════════════════════╗
+║                                                                    ║
+║               📚 CLAUDE SESSIONS MANAGER v1.0.0                    ║
+║                                                                    ║
+║         Never lose context from Claude Code again!                 ║
+║                                                                    ║
+╚════════════════════════════════════════════════════════════════════╝
+
+🚀 QUICK START (30 seconds)
+
+1. Install:
+   bash install.sh
+
+2. List your sessions:
+   claude-sessions
+
+3. View a session (use 8-char ID):
+   claude-view <id>
+
+4. Search:
+   claude-search "keyword"
+
+═══════════════════════════════════════════════════════════════════
+
+✅ WHAT IT DOES
+
+Claude Code saves ALL your conversations automatically to:
+   ~/.claude/history.jsonl
+
+This tool lets you:
+   - Browse past conversations
+   - Search by keyword
+   - Recover context after crashes
+   - Zero extra tokens used (just reads saved data)
+
+═══════════════════════════════════════════════════════════════════
+
+📖 FULL DOCUMENTATION
+
+Read:   README.md (complete guide)
+Share:  DISTRIBUTION.md (how to share with others)
+
+═══════════════════════════════════════════════════════════════════
+
+🐛 TROUBLESHOOTING
+
+"File not found" → You need to have Claude Code installed and
+                    at least one conversation saved.
+
+"Command not found" → Add ~/.local/bin to your PATH:
+                       export PATH="$HOME/.local/bin:$PATH"
+
+═══════════════════════════════════════════════════════════════════
+
+📄 LICENSE: MIT (free to use, modify, share)
+
+🙏 Created by Claude Code users who were tired of losing context.
+
+═══════════════════════════════════════════════════════════════════
+
+Happy coding! 🎉

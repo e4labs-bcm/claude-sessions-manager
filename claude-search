@@ -1,0 +1,92 @@
+#!/usr/bin/env python3
+"""
+Claude Sessions Manager - Search Sessions
+Busca palavra-chave em todas as conversas salvas
+"""
+
+import json
+import sys
+from datetime import datetime
+from pathlib import Path
+
+def search_sessions():
+    if len(sys.argv) < 2:
+        print("❌ Uso: claude-search <palavra-chave>")
+        print()
+        print("💡 Exemplos:")
+        print("   claude-search 'authentication'")
+        print("   claude-search 'API routes'")
+        print("   claude-search 'bug'")
+        sys.exit(1)
+
+    SEARCH_TERM = sys.argv[1].lower()
+    HISTORY_FILE = Path.home() / ".claude" / "history.jsonl"
+
+    if not HISTORY_FILE.exists():
+        print(f"❌ Arquivo de histórico não encontrado: {HISTORY_FILE}")
+        sys.exit(1)
+
+    print(f"🔍 Buscando por: \"{sys.argv[1]}\"")
+    print("═" * 60)
+    print()
+
+    matches = []
+
+    with open(HISTORY_FILE, 'r', encoding='utf-8') as f:
+        for line in f:
+            try:
+                entry = json.loads(line)
+                display = entry.get('display', '')
+
+                if SEARCH_TERM in display.lower():
+                    session_id = entry.get('sessionId', 'unknown')
+                    timestamp = entry.get('timestamp', 0)
+                    project = entry.get('project', 'Unknown')
+                    project_name = Path(project).name if project else 'Unknown'
+                    date_str = datetime.fromtimestamp(timestamp / 1000).strftime('%d/%m/%Y %H:%M')
+
+                    # Preview com destaque
+                    preview = display[:120]
+
+                    matches.append({
+                        'session_id': session_id,
+                        'date': date_str,
+                        'project': project_name,
+                        'preview': preview
+                    })
+            except json.JSONDecodeError:
+                continue
+
+    # Remover duplicatas por sessão e mostrar
+    seen_sessions = set()
+    unique_matches = []
+
+    for match in matches:
+        session_id = match['session_id']
+        if session_id in seen_sessions:
+            continue
+        seen_sessions.add(session_id)
+        unique_matches.append(match)
+
+    if not unique_matches:
+        print(f"❌ Nenhum resultado encontrado para: \"{sys.argv[1]}\"")
+        print()
+        print("💡 Tente:")
+        print("   - Usar palavras-chave diferentes")
+        print("   - Buscar termos mais gerais")
+        print("   - Ver todas as sessões com: claude-sessions")
+        sys.exit(0)
+
+    for match in unique_matches:
+        print(f"📄 {match['session_id'][:8]}... ({match['date']}) - {match['project']}")
+        print(f"   {match['preview']}...")
+        print()
+
+    print("═" * 60)
+    print(f"✅ {len(matches)} resultados encontrados em {len(unique_matches)} sessões")
+    print()
+    print("💡 Para ver sessão completa:")
+    print("   claude-view <sessionId>")
+
+if __name__ == '__main__':
+    search_sessions()
